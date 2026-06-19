@@ -9,15 +9,18 @@ export class Product extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
-  @Column()
+  @Column({ type: 'int', default: 0 })
   stock: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: null })
   image: string;
 
-  @Column()
+  @Column({ name: 'category_id', type: 'int' })
   categoryId: number;
+
+  @Column({ name: 'is_active', default: true })
+  isActive: boolean;
 }
