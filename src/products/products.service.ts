@@ -53,4 +53,22 @@ export class ProductService implements IProductService {
       excludeExtraneousValues: true,
     });
   }
+
+  async updateProduct(
+    id: number,
+    data: UpdateProductDto,
+  ): Promise<ProductResponseDto> {
+    const product = await this.productRepository.findOne({
+      where: { id, deletedDate: IsNull() },
+    });
+    if (!product) {
+      throw new BadRequestException('product not found');
+    }
+    const updateProduct = await this.productRepository.updateEntity( {id}
+      { ...product, ...data },
+    );
+    return plainToInstance(ProductResponseDto, updateProduct, {
+      excludeExtraneousValues: true,
+    });
+  }
 }

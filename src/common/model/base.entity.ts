@@ -11,10 +11,10 @@ export abstract class BaseEntity extends TypeOrmBaseEntity {
   id: number;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdDate: Date;
 
   @UpdateDateColumn({ name: 'modified_at' })
-  modifiedAt: Date;
+  modifiedDate: Date;
 
   @Column({ name: 'deleted_at', nullable: true, default: null })
   deletedDate: Date | null;
