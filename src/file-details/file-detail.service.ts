@@ -3,6 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { FileDetailResponseDto } from './dto/response.dto';
 import { FileDetailRepository } from './file-detail.repository';
 import { IsNull } from 'typeorm';
+import { FileDetails } from './file-detail.entity';
 
 @Injectable()
 export class FileDetailService {
@@ -14,18 +15,15 @@ export class FileDetailService {
     fileDetail: Record<string, string>[],
   ): Promise<FileDetailResponseDto[]> {
     return await Promise.all(
-      fileDetail.map((item) => {
-        return plainToInstance(
-          FileDetailResponseDto,
-          this.fileDetailRepository.save(
-            this.fileDetailRepository.createEntity(
-              plainToInstance(FileDetailRepository, { ...item }),
-            ),
+      fileDetail.map(async (item) => {
+        const saved = await this.fileDetailRepository.save(
+          this.fileDetailRepository.createEntity(
+            plainToInstance(FileDetails, item),
           ),
-          {
-            excludeExtraneousValues: true,
-          },
         );
+        return plainToInstance(FileDetailResponseDto, saved, {
+          excludeExtraneousValues: true,
+        });
       }),
     );
   }

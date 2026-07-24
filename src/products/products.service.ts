@@ -64,11 +64,26 @@ export class ProductService implements IProductService {
     if (!product) {
       throw new BadRequestException('product not found');
     }
-    const updateProduct = await this.productRepository.updateEntity( {id}
+    const updateProduct = await this.productRepository.updateEntity(
+      { id },
       { ...product, ...data },
     );
     return plainToInstance(ProductResponseDto, updateProduct, {
       excludeExtraneousValues: true,
     });
+  }
+
+  async deleteProduct(id: number): Promise<void> {
+    const product = await this.productRepository.findOne({
+      where: { id, deletedDate: IsNull() },
+    });
+
+    if (!product) {
+      throw new BadRequestException('product not found');
+    }
+    await this.productRepository.updateEntity(
+      { id },
+      { deletedDate: new Date() },
+    );
   }
 }
