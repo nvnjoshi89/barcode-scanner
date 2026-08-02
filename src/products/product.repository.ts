@@ -19,7 +19,7 @@ export class ProductRepository extends BaseRepository<Product> {
   async findAllProducts(): Promise<Product[]> {
     return this.findAll({
       where: { deletedDate: IsNull(), isActive: true },
-      order: { createdAt: 'DESC' },
+      order: { createdDate: 'DESC' },
     });
   }
 
