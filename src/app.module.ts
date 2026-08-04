@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ProductsModule } from './products/product.module';
+import { ProductModule } from './products/product.module';
 import { CategoriesModule } from './categories/categories.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
@@ -20,7 +20,7 @@ import { ClsModule } from 'nestjs-cls';
       global: true,
       middleware: { mount: true },
     }),
-    ProductsModule,
+    ProductModule,
     CategoriesModule,
   ],
   controllers: [],
