@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileDetails } from './file-detail.entity';
-import { FileDetailRepository } from '@/structure';
+import { FileDetailRepository } from './file-detail.repository';
 import { FileDetailService } from './file-detail.service';
 
 @Module({

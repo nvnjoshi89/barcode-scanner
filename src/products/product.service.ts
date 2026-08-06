@@ -6,10 +6,14 @@ import { plainToInstance } from 'class-transformer';
 import { IsNull } from 'typeorm';
 import { InsertProductDto } from './dto/insert-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { FileDetailService } from '@/file-details/file-detail.service';
 
 @Injectable()
 export class ProductService implements IProductService {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(
+    private readonly productRepository: ProductRepository,
+    private readonly fileDetailService: FileDetailService,
+  ) {}
 
   async getAllproducts(): Promise<ProductResponseDto[]> {
     const products = await this.productRepository.findAllProducts();
@@ -47,8 +51,16 @@ export class ProductService implements IProductService {
     if (existing) {
       throw new BadRequestException('Barcode already exists');
     }
-    const product = await this.productRepository.createEntity({ ...dto });
+    const product = await this.productRepository.createEntity({
+      ...dto,
+      image: dto.image,
+    });
     const savedProduct = await this.productRepository.save(product);
+    if (dto.image) {
+      await this.fileDetailService.updateFileDetail(dto.image, {
+        moduleId: product.id,
+      });
+    }
     return plainToInstance(ProductResponseDto, savedProduct, {
       excludeExtraneousValues: true,
     });
