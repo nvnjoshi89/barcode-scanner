@@ -9,6 +9,7 @@ import { createPinoConfig } from './common/config/pino.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { createTypeOrmConfig } from './common/config/db.config';
 import { ClsModule } from 'nestjs-cls';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ClsModule } from 'nestjs-cls';
       global: true,
       middleware: { mount: true },
     }),
+    UserModule,
     ProductModule,
     CategoriesModule,
   ],
