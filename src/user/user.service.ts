@@ -19,7 +19,7 @@ export class UserService implements IUserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async signupUser(data: CreateUserDto): Promise<any> {
-    const userExists = this.checkUserExists(data.email);
+    const userExists = await this.checkUserExists(data.email);
     if (userExists) {
       throw new BadRequestException(
         `User already exists with email ${data.email}`,
